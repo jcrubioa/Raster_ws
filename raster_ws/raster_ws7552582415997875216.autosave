@@ -34,9 +34,9 @@ void setup() {
   scene.fitBallInterpolation();
   strokeCap(SQUARE);
   c = new color[3];
-  c[0] = color(255,0,0);
-  c[1] = color(0,255,0);
-  c[2] = color(0,0,255);
+  c[0] = randomColor();
+  c[1] = randomColor();
+  c[2] = randomColor();
   antiAliasing = 2;
 
 
@@ -110,9 +110,9 @@ void rasterize(int startx, int starty, int endx, int endy, int cellSize, boolean
       if(lambda[3] == -1){
         //cnt+=1;
         //println(lambda);
-        stroke(255,0,0);
+        stroke(0,255,0);
         strokeCap(ROUND);
-        //point(frame.location(p).x(), frame.location(p).y());
+        point(frame.location(p).x(), frame.location(p).y());
         alias = aliasing(x,y, x+cellSize, y+cellSize, cellSize);
         float percent = (total_squares - alias + 0.0)/total_squares;
         //println(percent);
@@ -124,7 +124,7 @@ void rasterize(int startx, int starty, int endx, int endy, int cellSize, boolean
         color col = lerpColor(noAlias, backg, percent);
         stroke(col);
         strokeCap(SQUARE);
-        point(frame.location(p).x(), frame.location(p).y());
+        //point(frame.location(p).x(), frame.location(p).y());
         //println(alias);
         //point(frame.location(p).x(), frame.location(p).y());
         //rasterize(x,y, x+cellSize, y+cellSize, cellSize/antiAliasing, false);
@@ -207,7 +207,7 @@ void keyPressed() {
     if(antiAliasing * 2 >= 8)
       antiAliasing = 1;
     else
-      antiAliasing = antiAliasing == 1? 2 : antiAliasing*2;
+      antiAliasing = antiAliasing == 1? 2: antiAliasing* 2;
     println(antiAliasing);
   }
 }
