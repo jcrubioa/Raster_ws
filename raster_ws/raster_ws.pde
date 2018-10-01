@@ -86,10 +86,11 @@ void draw() {
 
 int aliasing(int startx, int starty, int endx, int endy, int cellSize){
   int cnt = 0;
+  float center = cellSize/(2*antiAliasing);
   for (int x = startx; x < endx; x += (int)(cellSize / antiAliasing) ) {
     for (int y = starty; y < endy; y += (int)(cellSize / antiAliasing) ){
-      Vector p = new Vector(x + cellSize/(2*antiAliasing), y + cellSize/(2*antiAliasing));
-      float[] lambda = compute(p, cellSize/(2*antiAliasing), true);
+      Vector p = new Vector(x + center, y + center);
+      float[] lambda = computeSimple(p, center, true);
       if(lambda == null) continue;
       cnt += 1;
     }
@@ -98,7 +99,6 @@ int aliasing(int startx, int starty, int endx, int endy, int cellSize){
 }   
 
 void rasterize(int startx, int starty, int endx, int endy, int cellSize, boolean master) {
-  int cnt = 0;
   int total_squares = int(pow(antiAliasing, 2));
   for (int x = startx; x <= endx; x += cellSize ) {
     for (int y = starty; y <= endy; y += cellSize ){
@@ -107,33 +107,15 @@ void rasterize(int startx, int starty, int endx, int endy, int cellSize, boolean
       float[] lambda = compute(p, cellSize/2, true);
       //println(x);
       if(lambda == null) continue;
-      if(lambda[3] == -1){
-        //cnt+=1;
-        //println(lambda);
-        stroke(255,0,0);
-        strokeCap(ROUND);
-        //point(frame.location(p).x(), frame.location(p).y());
-        alias = aliasing(x,y, x+cellSize, y+cellSize, cellSize);
-        float percent = (total_squares - alias + 0.0)/total_squares;
-        //println(percent);
-        color backg = g.backgroundColor; 
-        float red = lambda[0] * red(c[0]) + lambda[0] * red(c[1]) + lambda[0] * red(c[2]);
-        float green = lambda[1] * green(c[0]) + lambda[1] * green(c[1]) + lambda[1] * green(c[2]);
-        float blue = lambda[2] * blue(c[0]) + lambda[2] * blue(c[1]) + lambda[2] * blue(c[2]);
-        color noAlias = color(red, green, blue);
-        color col = lerpColor(noAlias, backg, percent);
-        stroke(col);
-        strokeCap(SQUARE);
-        point(frame.location(p).x(), frame.location(p).y());
-        //println(alias);
-        //point(frame.location(p).x(), frame.location(p).y());
-        //rasterize(x,y, x+cellSize, y+cellSize, cellSize/antiAliasing, false);
-        continue;
-      }
+      alias = aliasing(x,y, x+cellSize, y+cellSize, cellSize);
+      float percent = (total_squares - alias + 0.0)/total_squares;
+      //println(percent);
+      color backg = g.backgroundColor; 
       float red = lambda[0] * red(c[0]) + lambda[0] * red(c[1]) + lambda[0] * red(c[2]);
       float green = lambda[1] * green(c[0]) + lambda[1] * green(c[1]) + lambda[1] * green(c[2]);
       float blue = lambda[2] * blue(c[0]) + lambda[2] * blue(c[1]) + lambda[2] * blue(c[2]);
-      color col = color(red, green, blue);
+      color noAlias = color(red, green, blue);
+      color col = lerpColor(noAlias, backg, percent);
       stroke(col);
       strokeCap(SQUARE);
       point(frame.location(p).x(), frame.location(p).y());
