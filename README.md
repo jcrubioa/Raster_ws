@@ -75,6 +75,8 @@ Los resultados obtenidos reducen considerablemente los "jaggies" al subdividir l
 
 La técnica utilizada es conocida como prefiltering[1]. Es descrita también en[2]
 
+Para utlizarlo, presionar la tecla "a" al correr el Sketch. Presionarla cambiará el nivel de antialiasing entre 1, 2, 4 y 1 de nuevo. 2 significa 4 subdivisiones por cada celda, mientras que 4 siginifica 16 subdivisiones.
+
 
 ## Referencias
 [[1] Antialiasing strategies](https://web.cs.wpi.edu/~matt/courses/cs563/talks/antialiasing/methods.html)
